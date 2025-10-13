@@ -62,7 +62,7 @@
 ## 📜 Как присоединиться?
 1. **Форкните репозиторий**:  
    ```bash
-   git clone https://github.com/yourusername/quantum_secure_hyperchain.git
+   git clone https://github.com/milllion24-hub/QuantumSecureHyperchain.git
 2.
 Создайте issue:
 В разделе Issues напишите:
