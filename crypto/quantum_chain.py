@@ -1,23 +1,25 @@
-from pqcrypto.sign import sphincs, ntru_hps_2048_509_509
+ffrom typing import Tuple
+from pqcrypto.sign import sphincs_sha3_512fs_simple
+from pqcrypto.sign import falcon_512
 
 class QuantumCrypto:
     @staticmethod
-    def generate_keypair(algorithm: str):
+    def generate_keypair(algorithm: str) -> Tuple[object, object]:
         if algorithm == "sphincs":
-            sk = sphincs.generate_keypair()
-            return sk, sk.public_key()
+            sk, pk = sphincs_sha3_512fs_simple.keypair()
+            return sk, pk
         elif algorithm == "ntru":
-            sk = ntru_hps_2048_509_509.generate_keypair()
-            return sk, sk.public_key()
+            sk, pk = falcon_512.keypair()
+            return sk, pk
         else:
             raise ValueError("Unsupported algorithm")
 
     @staticmethod
     def sign(message: bytes, private_key, algorithm: str) -> bytes:
         if algorithm == "sphincs":
-            return sphincs.sign(message, private_key)
+            return sphincs_sha3_512fs_simple.sign(message, private_key)
         elif algorithm == "ntru":
-            return ntru_hps_2048_509_509.sign(message, private_key)
+            return falcon_512.sign(message, private_key)
         else:
             raise ValueError("Unsupported algorithm")
 
@@ -25,11 +27,9 @@ class QuantumCrypto:
     def verify(message: bytes, signature: bytes, public_key, algorithm: str) -> bool:
         try:
             if algorithm == "sphincs":
-                sphincs.verify(message, signature, public_key)
+                sphincs_sha3_512fs_simple.verify(message, signature, public_key)
             elif algorithm == "ntru":
-                ntru_hps_2048_509_509.verify(message, signature, public_key)
-            else:
-                return False
+                falcon_512.verify(message, signature, public_key)
             return True
         except:
             return False
