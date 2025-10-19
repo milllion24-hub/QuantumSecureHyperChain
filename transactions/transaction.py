@@ -1,5 +1,7 @@
 import hashlib
 import json
+import time
+from typing import List
 
 class Transaction:
     def __init__(self, sender: str, receiver: str, amount: float):
@@ -25,11 +27,14 @@ class Transaction:
 class TransactionPool:
     def __init__(self):
         self.pool: List[Transaction] = []
-    
+        self.lock = threading.Lock()  # Добавлено для безопасности
+
     def add_transaction(self, tx: Transaction):
-        self.pool.append(tx)
-    
+        with self.lock:
+            self.pool.append(tx)
+
     def get_batch(self, size: int) -> List[Transaction]:
-        batch = self.pool[:size]
-        self.pool = self.pool[size:]
-        return batch
+        with self.lock:
+            batch = self.pool[:size]
+            self.pool = self.pool[size:]
+            return batch
