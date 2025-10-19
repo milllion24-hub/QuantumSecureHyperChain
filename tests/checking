@@ -1,0 +1,10 @@
+# Создание блокчейна
+from src.core.quantum_chain import QuantumSecureHyperChain
+chain = QuantumSecureHyperChain()
+
+# Добавление валидаторов
+chain.validators.add_validator("val1", sk1, sk2, 200000, "github_user")
+
+# Проверка статистики
+stats = chain.get_blockchain_stats()
+print(stats)
